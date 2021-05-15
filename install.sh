@@ -950,35 +950,35 @@ list() {
 
 menu() {
     update_sh
-    echo -e "\t V2ray installation menu ${Red}[${shell_version}]${Font}"
+    echo -e "\t V2ray 安装管理脚本 ${Red}[${shell_version}]${Font}"
     echo -e "\t---authored by wulabing---"
     echo -e "\thttps://github.com/wulabing\n"
-    echo -e "current version:${shell_mode}\n"
+    echo -e "当前已安装版本:${shell_mode}\n"
 
-    echo -e "—————————————— Installation ——————————————"""
-    echo -e "${Green}0.${Font}  upgrade script"
-    echo -e "${Green}1.${Font}  install V2Ray (Nginx+ws+tls)"
-    echo -e "${Green}2.${Font}  install V2Ray (http/2)"
-    echo -e "${Green}3.${Font}  upgrade V2Ray core"
-    echo -e "—————————————— Configurations ——————————————"
-    echo -e "${Green}4.${Font}  change UUID"
-    echo -e "${Green}5.${Font}  change alterid"
-    echo -e "${Green}6.${Font}  change port"
-    echo -e "${Green}7.${Font}  change TLS version(仅ws+tls有效)"
-    echo -e "—————————————— view Info ——————————————"
-    echo -e "${Green}8.${Font}  view Real-time access log"
-    echo -e "${Green}9.${Font}  view Real-time error log"
-    echo -e "${Green}10.${Font} view V2Ray config"
-    echo -e "—————————————— Others ——————————————"
-    echo -e "${Green}11.${Font} install 4in1 bbr 锐速安装脚本"
-    echo -e "${Green}12.${Font} install MTproxy(Support TLS obfuscation)"
-    echo -e "${Green}13.${Font} certificate Validity update"
-    echo -e "${Green}14.${Font} Uninstall V2Ray"
-    echo -e "${Green}15.${Font} Update Certificate crontab scheduled task"
-    echo -e "${Green}16.${Font} clear certificate legacy files"
-    echo -e "${Green}17.${Font} cancel \n"
+    echo -e "—————————————— 安装向导 ——————————————"""
+    echo -e "${Green}0.${Font}  升级 脚本"
+    echo -e "${Green}1.${Font}  安装 V2Ray (Nginx+ws+tls)"
+    echo -e "${Green}2.${Font}  安装 V2Ray (http/2)"
+    echo -e "${Green}3.${Font}  升级 V2Ray core"
+    echo -e "—————————————— 配置变更 ——————————————"
+    echo -e "${Green}4.${Font}  变更 UUID"
+    echo -e "${Green}5.${Font}  变更 alterid"
+    echo -e "${Green}6.${Font}  变更 port"
+    echo -e "${Green}7.${Font}  变更 TLS 版本(仅ws+tls有效)"
+    echo -e "—————————————— 查看信息 ——————————————"
+    echo -e "${Green}8.${Font}  查看 实时访问日志"
+    echo -e "${Green}9.${Font}  查看 实时错误日志"
+    echo -e "${Green}10.${Font} 查看 V2Ray 配置信息"
+    echo -e "—————————————— 其他选项 ——————————————"
+    echo -e "${Green}11.${Font} 安装 4合1 bbr 锐速安装脚本"
+    echo -e "${Green}12.${Font} 安装 MTproxy(支持TLS混淆)"
+    echo -e "${Green}13.${Font} 证书 有效期更新"
+    echo -e "${Green}14.${Font} 卸载 V2Ray"
+    echo -e "${Green}15.${Font} 更新 证书crontab计划任务"
+    echo -e "${Green}16.${Font} 清空 证书遗留文件"
+    echo -e "${Green}17.${Font} 退出 \n"
 
-    read -rp "Please type a number：" menu_num
+    read -rp "请输入数字：" menu_num
     case $menu_num in
     0)
         update_sh
@@ -995,17 +995,17 @@ menu() {
         bash <(curl -L -s https://raw.githubusercontent.com/wulabing/V2Ray_ws-tls_bash_onekey/${github_branch}/v2ray.sh)
         ;;
     4)
-        read -rp "UUID:" UUID
+        read -rp "请输入UUID:" UUID
         modify_UUID
         start_process_systemd
         ;;
     5)
-        read -rp "alterID:" alterID
+        read -rp "请输入alterID:" alterID
         modify_alterid
         start_process_systemd
         ;;
     6)
-        read -rp "enter your desire port:" port
+        read -rp "请输入连接端口:" port
         if grep -q "ws" $v2ray_qr_config_file; then
             modify_nginx_port
         elif grep -q "h2" $v2ray_qr_config_file; then
