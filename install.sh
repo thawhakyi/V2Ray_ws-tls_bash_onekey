@@ -136,7 +136,7 @@ chrony_install() {
 
     judge "chronyd 启动 "
 
-    timedatectl set-timezone Asia/Shanghai
+    timedatectl set-timezone Asia/Yangon
 
     echo -e "${OK} ${GreenBG} 等待时间同步 ${Font}"
     sleep 10
@@ -305,7 +305,7 @@ web_camouflage() {
     rm -rf /home/wwwroot
     mkdir -p /home/wwwroot
     cd /home/wwwroot || exit
-    git clone https://github.com/Ollie-lee/natours.git
+    git clone https://github.com/wulabing/3DCEList.git
     judge "web 站点伪装"
 }
 v2ray_install() {
