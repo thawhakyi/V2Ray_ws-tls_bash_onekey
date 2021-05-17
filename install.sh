@@ -26,7 +26,7 @@ Font="\033[0m"
 #notification information
 # Info="${Green}[信息]${Font}"
 OK="${Green}[OK]${Font}"
-Error="${Red}[错误]${Font}"
+Error="${Red}[ERROR]${Font}"
 
 # 版本
 shell_version="1.1.5.7"
@@ -56,32 +56,32 @@ jemalloc_version="5.2.1"
 old_config_status="off"
 # v2ray_plugin_version="$(wget -qO- "https://github.com/shadowsocks/v2ray-plugin/tags" | grep -E "/shadowsocks/v2ray-plugin/releases/tag/" | head -1 | sed -r 's/.*tag\/v(.+)\">.*/\1/')"
 
-#移动旧版本配置信息 对小于 1.1.0 版本适配
+# Mobile version of the configuration information for less than the old version 1.1.0 adapter
 [[ -f "/etc/v2ray/vmess_qr.json" ]] && mv /etc/v2ray/vmess_qr.json $v2ray_qr_config_file
 
-#简易随机数
+# Simple random number
 random_num=$((RANDOM%12+4))
-#生成伪装路径
+# Faked path
 camouflage="/$(head -n 10 /dev/urandom | md5sum | head -c ${random_num})/"
 
 THREAD=$(grep 'processor' /proc/cpuinfo | sort -u | wc -l)
 
 source '/etc/os-release'
 
-#从VERSION中提取发行版系统的英文名称，为了在debian/ubuntu下添加相对应的Nginx apt源
+# Extract English name from VERSION release system, in order to add the corresponding source Nginx apt in debian / ubuntu
 VERSION=$(echo "${VERSION}" | awk -F "[()]" '{print $2}')
 
 check_system() {
     if [[ "${ID}" == "centos" && ${VERSION_ID} -ge 7 ]]; then
-        echo -e "${OK} ${GreenBG} 当前系统为 Centos ${VERSION_ID} ${VERSION} ${Font}"
+        echo -e "${OK} ${GreenBG} current system is Centos ${VERSION_ID} ${VERSION} ${Font}"
         INS="yum"
     elif [[ "${ID}" == "debian" && ${VERSION_ID} -ge 8 ]]; then
-        echo -e "${OK} ${GreenBG} 当前系统为 Debian ${VERSION_ID} ${VERSION} ${Font}"
+        echo -e "${OK} ${GreenBG} current system is Debian ${VERSION_ID} ${VERSION} ${Font}"
         INS="apt"
         $INS update
         ## 添加 Nginx apt源
     elif [[ "${ID}" == "ubuntu" && $(echo "${VERSION_ID}" | cut -d '.' -f1) -ge 16 ]]; then
-        echo -e "${OK} ${GreenBG} 当前系统为 Ubuntu ${VERSION_ID} ${UBUNTU_CODENAME} ${Font}"
+        echo -e "${OK} ${GreenBG} current system is Ubuntu ${VERSION_ID} ${UBUNTU_CODENAME} ${Font}"
         INS="apt"
         rm /var/lib/dpkg/lock
         dpkg --configure -a
@@ -89,7 +89,7 @@ check_system() {
         rm /var/cache/apt/archives/lock
         $INS update
     else
-        echo -e "${Error} ${RedBG} 当前系统为 ${ID} ${VERSION_ID} 不在支持的系统列表内，安装中断 ${Font}"
+        echo -e "${Error} ${RedBG} current system ${ID} ${VERSION_ID} is not in the list of supported systems, installation was interrupted ${Font}"
         exit 1
     fi
 
@@ -97,11 +97,11 @@ check_system() {
 
     systemctl stop firewalld
     systemctl disable firewalld
-    echo -e "${OK} ${GreenBG} firewalld 已关闭 ${Font}"
+    echo -e "${OK} ${GreenBG} firewalld is disabled ${Font}"
 
     systemctl stop ufw
     systemctl disable ufw
-    echo -e "${OK} ${GreenBG} ufw 已关闭 ${Font}"
+    echo -e "${OK} ${GreenBG} ufw inactive ${Font}"
 }
 
 is_root() {
@@ -953,32 +953,32 @@ menu() {
     echo -e "\t V2ray 安装管理脚本 ${Red}[${shell_version}]${Font}"
     echo -e "\t---authored by wulabing---"
     echo -e "\thttps://github.com/wulabing\n"
-    echo -e "当前已安装版本:${shell_mode}\n"
+    echo -e "Current version:${shell_mode}\n"
 
-    echo -e "—————————————— 安装向导 ——————————————"""
-    echo -e "${Green}0.${Font}  升级 脚本"
-    echo -e "${Green}1.${Font}  安装 V2Ray (Nginx+ws+tls)"
-    echo -e "${Green}2.${Font}  安装 V2Ray (http/2)"
-    echo -e "${Green}3.${Font}  升级 V2Ray core"
-    echo -e "—————————————— 配置变更 ——————————————"
-    echo -e "${Green}4.${Font}  变更 UUID"
-    echo -e "${Green}5.${Font}  变更 alterid"
-    echo -e "${Green}6.${Font}  变更 port"
-    echo -e "${Green}7.${Font}  变更 TLS 版本(仅ws+tls有效)"
-    echo -e "—————————————— 查看信息 ——————————————"
-    echo -e "${Green}8.${Font}  查看 实时访问日志"
-    echo -e "${Green}9.${Font}  查看 实时错误日志"
-    echo -e "${Green}10.${Font} 查看 V2Ray 配置信息"
-    echo -e "—————————————— 其他选项 ——————————————"
-    echo -e "${Green}11.${Font} 安装 4合1 bbr 锐速安装脚本"
-    echo -e "${Green}12.${Font} 安装 MTproxy(支持TLS混淆)"
-    echo -e "${Green}13.${Font} 证书 有效期更新"
-    echo -e "${Green}14.${Font} 卸载 V2Ray"
-    echo -e "${Green}15.${Font} 更新 证书crontab计划任务"
-    echo -e "${Green}16.${Font} 清空 证书遗留文件"
-    echo -e "${Green}17.${Font} 退出 \n"
+    echo -e "—————————————— Install Wizard ——————————————"""
+    echo -e "${Green}0.${Font}  Update Script"
+    echo -e "${Green}1.${Font}  install V2Ray (Nginx+ws+tls)"
+    echo -e "${Green}2.${Font}  install V2Ray (http/2)"
+    echo -e "${Green}3.${Font}  install V2Ray core"
+    echo -e "—————————————— Configuration ——————————————"
+    echo -e "${Green}4.${Font}  change UUID"
+    echo -e "${Green}5.${Font}  change alterid"
+    echo -e "${Green}6.${Font}  change port"
+    echo -e "${Green}7.${Font}  change TLS version(only for ws+tls)"
+    echo -e "—————————————— Information ——————————————"
+    echo -e "${Green}8.${Font}  view access-log"
+    echo -e "${Green}9.${Font}  view error-log"
+    echo -e "${Green}10.${Font} view V2Ray configuration"
+    echo -e "—————————————— Others ——————————————"
+    echo -e "${Green}11.${Font} install 4in1 bbr 锐速安装脚本"
+    echo -e "${Green}12.${Font} install MTproxy(support TLS Obfuscation)"
+    echo -e "${Green}13.${Font} update Certificate"
+    echo -e "${Green}14.${Font} uninstall V2Ray"
+    echo -e "${Green}15.${Font} update certificate crontab scheduled task"
+    echo -e "${Green}16.${Font} Clear remaining certificate files"
+    echo -e "${Green}17.${Font} cancel \n"
 
-    read -rp "请输入数字：" menu_num
+    read -rp "Please enter a number:" menu_num
     case $menu_num in
     0)
         update_sh
@@ -1055,7 +1055,7 @@ menu() {
         exit 0
         ;;
     *)
-        echo -e "${RedBG}请输入正确的数字${Font}"
+        echo -e "${RedBG}Please enter a valid number${Font}"
         ;;
     esac
 }
